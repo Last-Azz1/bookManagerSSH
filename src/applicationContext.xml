@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p ="http://www.springframework.org/schema/p"
+       xmlns:context ="http://www.springframework.org/schema/context"
+       xmlns:aop ="http://www.springframework.org/schema/aop"
+       xmlns:tx ="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+    </bean>
+    <!--Dao配置-->
+    <bean id="userDao" class="pers.ssh.dao.impl.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="bookDao" class="pers.ssh.dao.impl.BookDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="readerDao" class="pers.ssh.dao.impl.ReaderDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!--Service配置-->
+    <bean id="userService" class="pers.ssh.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+    <bean id="bookService" class="pers.ssh.service.impl.BookServiceImpl">
+        <property name="bookDao" ref="bookDao"></property>
+    </bean>
+    <bean id="readerService" class="pers.ssh.service.impl.ReaderServiceImpl">
+        <property name="readerDao" ref="readerDao"></property>
+    </bean>
+
+</beans>

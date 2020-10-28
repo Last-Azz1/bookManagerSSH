@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <constant name="struts.devMode" value="true"></constant>
+    <package name="p1" extends="struts-default" namespace="/">
+        <!--声明一个登录拦截器-->
+        <interceptors>
+            <interceptor name="LoginInterceptor" class="pers.ssh.web.interceptor.LoginInterceptor">
+                <param name="excludeMethods">login</param>
+            </interceptor>
+            <!--声明一个拦截器栈-->
+            <interceptor-stack name="myDeafultStack">
+                <interceptor-ref name="LoginInterceptor"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <!--修改Struts默认拦截器-->
+        <default-interceptor-ref name="myDeafultStack"></default-interceptor-ref>
+        <!--配置全局的结果视图-->
+        <global-results>
+            <result name="loginFailure">/page-login.jsp</result>
+        </global-results>
+        <action name="user_*" class="pers.ssh.web.action.UserAction" method="{1}">
+            <result name="loginSuccess">/index.jsp</result>
+        </action>
+        <action name="book_*" class="pers.ssh.web.action.BookAction" method="{1}">
+            <result name="allBook">/table-export.jsp</result>
+            <result name="allBookAction" type="redirectAction">book_queryAllbook</result>
+        </action>
+        <action name="reader_*" class="pers.ssh.web.action.ReaderAction" method="{1}">
+            <result name="allReader">/table-row-select.jsp</result>
+            <result name="allReaderAction" type="redirectAction">reader_queryAllReader</result>
+        </action>
+    </package>
+</struts>
